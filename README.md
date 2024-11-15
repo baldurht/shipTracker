@@ -28,7 +28,7 @@ This app tracks ships and calculates their exit time from a predefined polygon b
 - **Node.js 16+**
 - **npm** (comes with Node.js)
 - **httpx**, **uvicorn**, **fastapi**, **python-dotenv** (Python dependencies)
-- Access credentials for BarentsWatch API.
+- Access credentials for BarentsWatch AIS API.
 
 ---
 
@@ -36,7 +36,7 @@ This app tracks ships and calculates their exit time from a predefined polygon b
 
 ## BarentsWatch
 
-To access AIS data, we use the [BarentsWatch APIs](https://developer.barentswatch.no/docs/tutorial).
+To access AIS data, we use the [BarentsWatch AIS APIs](https://developer.barentswatch.no/docs/tutorial).
 
 ### Create a User
 
