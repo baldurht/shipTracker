@@ -36,22 +36,21 @@ This app tracks ships and calculates their exit time from a predefined polygon b
 
 ## BarentsWatch
 
-For å få tak i AIS data bruker vi [BarentsWatch sine API-er](https://developer.barentswatch.no/docs/tutorial). 
+To access AIS data, we use the [BarentsWatch APIs](https://developer.barentswatch.no/docs/tutorial).
 
-### Opprett bruker
+### Create a User
 
-For å få tilgang må man [opprette en bruker her](https://id.barentswatch.no/Account/Register). Åpne mailen du har fått og godkjenn brukeren. Når det er gjort kan du logge inn og legge til fullt navn og telefonnummer på [minside](https://www.barentswatch.no/minside). 
-Deretter oppretter man en klient for hvert enkelt API man er interessert i å bruke. 
+To gain access, you must [create a user account here](https://id.barentswatch.no/Account/Register). Open the email you receive and approve your account. Once this is done, you can log in and add your full name and phone number on [My Page](https://www.barentswatch.no/minside).  
+After this, you need to create a client for each API you want to use.
 
-### Opprett klient
+### Create a Client
 
-Til å begynne med lager du en klient for AIS. Husk å lagre passordet til klienten. Dette gjøres gjerne i en passord manager (KeePass, LastPass, Keeper f.eks) sammen med klientnavnet. Disse kan så deles med andre på en trygg måte og legges i environment variables for å gjøre kall fra serveren.
+Start by creating a client for AIS. Be sure to save the client's password, preferably in a password manager (such as KeePass, LastPass, or Keeper) along with the client name. These credentials can then be securely shared with others and stored as environment variables to make API calls from your server.
 
-### Teste API-et
+### Test the API
 
-BarentsWatch bruker OpenAPI og kan i teorien testes fra en nettleser, [som beskrevet her](https://developer.barentswatch.no/docs/usingopenapi). OBS: Det er linket til feil AIS OpenAPI, og det står at alt er deprecated (ikke skal brukes) om du følger links i dokumentasjonen. [Dette er riktig link til AIS API](https://live.ais.barentswatch.no/index.html).
-Dessverre er det gjort noe feil her og det er derfor ikke mulig å autoriseres. "Try it out" vil derfor alltid feile. Det er fremdeles en fin måte å se hvordan API-et brukes, med eksempeldata i både request og response.
-
+BarentsWatch uses OpenAPI and, in theory, can be tested directly from a browser, [as described here](https://developer.barentswatch.no/docs/usingopenapi). **Note**: The wrong AIS OpenAPI is linked, and it states that everything is deprecated (no longer in use) if you follow links in the documentation. [This is the correct link to the AIS API](https://live.ais.barentswatch.no/index.html).  
+Unfortunately, there is an issue here, and it is not possible to authorize. "Try it out" will therefore always fail. However, it is still a good way to see how the API works, with example data for both requests and responses.
 ---
 
 ## Installation
