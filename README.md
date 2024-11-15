@@ -49,8 +49,8 @@ Start by creating a client for AIS. Be sure to save the client's password, prefe
 
 ### Test the API
 
-BarentsWatch uses OpenAPI and, in theory, can be tested directly from a browser, [as described here](https://developer.barentswatch.no/docs/usingopenapi). **Note**: The wrong AIS OpenAPI is linked, and it states that everything is deprecated (no longer in use) if you follow links in the documentation. [This is the correct link to the AIS API](https://live.ais.barentswatch.no/index.html).  
-Unfortunately, there is an issue here, and it is not possible to authorize. "Try it out" will therefore always fail. However, it is still a good way to see how the API works, with example data for both requests and responses.
+BarentsWatch uses OpenAPI and, in theory, can be tested directly from a browser, [as described here](https://developer.barentswatch.no/docs/usingopenapi). **Note**: The wrong AIS OpenAPI is linked, and it states that everything is deprecated (no longer in use) if you follow links in the documentation. [This is the correct link to the AIS API](https://live.ais.barentswatch.no/index.html). Unfortunately, there is an issue here, and it is not possible to authorize. "Try it out" will therefore always fail. However, it is still a good way to see how the API works, with example data for both requests and responses.
+
 ---
 
 ## Installation
