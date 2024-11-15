@@ -53,9 +53,9 @@ Follow this [guide by BarenWatch](https://developer.barentswatch.no/docs/appreg/
    ```bash
    pip install -r requirements.txt
 4. Create a .env file in the backend directory:
-   ```plaintext
-   CLIENT_ID=your_client_id
-   CLIENT_SECRET=your_client_secret
+   ```bash
+   touch .env
+   echo -e "CLIENT_ID=\nCLIENT_SECRET=">.env
 
 ### Frontend Setup
 
