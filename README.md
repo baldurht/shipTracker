@@ -74,8 +74,8 @@ Follow this [guide by BarenWatch](https://developer.barentswatch.no/docs/appreg/
 1. Ensure the virtual enviroment is activated.
 2. Run the backend server:
    ```bash
-   uvicorn main:app --reload
-  The backend will now be available at http://127.0.0.1:8000.
+   fastapi dev backend/backend.py
+  The backend will now be available at http://127.0.0.1:8000/data.
 
 ### Start the Frontend
 1. Open a new terminal and navigate to the frontend directory.
