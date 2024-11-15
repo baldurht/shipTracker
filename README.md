@@ -34,7 +34,23 @@ This app tracks ships and calculates their exit time from a predefined polygon b
 
 ## Access to the API
 
-Follow this [guide by BarenWatch](https://developer.barentswatch.no/docs/appreg/)
+## BarentsWatch
+
+For å få tak i AIS data bruker vi [BarentsWatch sine API-er](https://developer.barentswatch.no/docs/tutorial). 
+
+### Opprett bruker
+
+For å få tilgang må man [opprette en bruker her](https://id.barentswatch.no/Account/Register). Åpne mailen du har fått og godkjenn brukeren. Når det er gjort kan du logge inn og legge til fullt navn og telefonnummer på [minside](https://www.barentswatch.no/minside). 
+Deretter oppretter man en klient for hvert enkelt API man er interessert i å bruke. 
+
+### Opprett klient
+
+Til å begynne med lager du en klient for AIS. Husk å lagre passordet til klienten. Dette gjøres gjerne i en passord manager (KeePass, LastPass, Keeper f.eks) sammen med klientnavnet. Disse kan så deles med andre på en trygg måte og legges i environment variables for å gjøre kall fra serveren.
+
+### Teste API-et
+
+BarentsWatch bruker OpenAPI og kan i teorien testes fra en nettleser, [som beskrevet her](https://developer.barentswatch.no/docs/usingopenapi). OBS: Det er linket til feil AIS OpenAPI, og det står at alt er deprecated (ikke skal brukes) om du følger links i dokumentasjonen. [Dette er riktig link til AIS API](https://live.ais.barentswatch.no/index.html).
+Dessverre er det gjort noe feil her og det er derfor ikke mulig å autoriseres. "Try it out" vil derfor alltid feile. Det er fremdeles en fin måte å se hvordan API-et brukes, med eksempeldata i både request og response.
 
 ---
 
