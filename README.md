@@ -6,11 +6,11 @@ This app tracks ships and calculates their exit time from a predefined polygon b
 
 - [Features](#features)
 - [Requirements](#requirements)
-- [Access to the API](#api)
+- [Access to the API](#Access-to-the-API)
 - [Installation](#installation)
 - [Running the App](#running-the-app)
 - [Project Structure](#project-structure)
-- [Things to Improve](#improvments)
+- [Things to Improve](#Things-to-Improve)
 
 ---
 
