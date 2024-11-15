@@ -95,7 +95,7 @@ BarentsWatch uses OpenAPI and, in theory, can be tested directly from a browser,
    source venv/bin/activate
 3. Run the backend server:
    ```bash
-   fastapi dev backend.py
+   uvicorn backend:app --reload
   The backend will now be available at http://127.0.0.1:8000/data.
 
 ### Start the Frontend
