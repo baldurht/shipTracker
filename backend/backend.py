@@ -117,7 +117,7 @@ async def fetch_latest_data():
                     async for chunk in response.aiter_text():
                         yield f"{chunk}\n\n"
                 else:
-                    print(f"Kunne ikke hente data: {response.status_code}, {response.text}") function == 
+                    print(f"Kunne ikke hente data: {response.status_code}, {response.text}")
                     return
 
     except httpx.TimeoutException as exc:
