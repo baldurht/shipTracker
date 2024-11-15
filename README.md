@@ -80,7 +80,7 @@ Follow this [guide by BarenWatch](https://developer.barentswatch.no/docs/appreg/
    source venv/bin/activate
 3. Run the backend server:
    ```bash
-   fastapi dev /backend.py
+   fastapi dev backend.py
   The backend will now be available at http://127.0.0.1:8000/data.
 
 ### Start the Frontend
