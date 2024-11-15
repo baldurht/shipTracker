@@ -71,8 +71,14 @@ Follow this [guide by BarenWatch](https://developer.barentswatch.no/docs/appreg/
 ## Running the app
 
 ### Start the Backend
-1. Ensure the virtual enviroment is activated.
-2. Run the backend server:
+1. Ensure you are in the Backend module.
+   ```bash
+   cd backend
+
+2. Ensure the virtual enviroment is activated.
+   ```bash
+   source venv/bin/activate
+3. Run the backend server:
    ```bash
    fastapi dev backend/backend.py
   The backend will now be available at http://127.0.0.1:8000/data.
