@@ -120,8 +120,8 @@ Follow this [guide by BarenWatch](https://developer.barentswatch.no/docs/appreg/
 
 ## Things to Improve
 
-1. Display the boats in a better way, use exit_time to generate a boat that moves across the screen in exit_time time
-2. Add ui to change the polygon and generate the polygon based upon where the user says they are standing and their field of view
+1. Display the boats in a better way, use exit_time to generate a boat that moves across the screen in exit_time time.
+2. Add ui to change the polygon and generate the polygon based upon where the user says they are standing and their field of view.
 
 
   
