@@ -132,8 +132,13 @@ async def fetch_latest_data():
         print(f"Forespørsel: {exc.request.url!r}")
         return
 
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
 
 # API-endepunkt for å hente live data fra ekstern API
+
 @app.get("/data")
 async def get_latest_data():
     return StreamingResponse(fetch_latest_data(), media_type="text/event-stream")
