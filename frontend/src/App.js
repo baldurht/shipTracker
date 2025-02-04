@@ -9,7 +9,7 @@ function App() {
 
   useEffect(() => {
     const eventSource = new EventSource(
-      "https://shipohoi-backend.onrender.com:10000/data",
+      "https://shipohoi-backend.onrender.com/data",
     );
 
     eventSource.onopen = () => {
