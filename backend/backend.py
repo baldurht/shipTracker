@@ -1,12 +1,14 @@
-import httpx
-import time
-from fastapi import FastAPI
-from fastapi.responses import StreamingResponse
-from fastapi.middleware.cors import CORSMiddleware
-import json, uvicorn
-from asyncio import sleep
-from dotenv import load_dotenv
+import json
 import os
+import time
+from asyncio import sleep
+
+import httpx
+import uvicorn
+from dotenv import load_dotenv
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 
 app = FastAPI()
 
@@ -22,11 +24,11 @@ app.add_middleware(
 )
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=10000)
 
 # Hent klient-ID og klienthemmelighet fra .env
-CLIENT_ID = os.getenv('CLIENT_ID')
-CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+CLIENT_ID = os.getenv("CLIENT_ID")
+CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 
 # Sjekk om miljøvariabler er satt
 if not CLIENT_ID or not CLIENT_SECRET:
@@ -40,10 +42,8 @@ SCOPE = "ais"
 token = None
 token_expiration = 0
 
-HEADERS = {
-    "Content-Type": "application/json",
-    "accept": "text/event-stream"
-}
+HEADERS = {"Content-Type": "application/json", "accept": "text/event-stream"}
+
 
 # Hent nytt token fra API-et
 async def get_new_token():
@@ -64,12 +64,14 @@ async def get_new_token():
         token_expiration = time.time() + data["expires_in"]
         print("Token oppdatert.")
 
+
 # Sjekker at tokenet er gyldig
 async def ensure_token_valid():
     if not token or time.time() >= token_expiration:
         print("Ingen gyldig token tilgjengelig eller token er utløpt.")
         await get_new_token()
     return token is not None
+
 
 # Hent live data fra API-et
 async def fetch_latest_data():
@@ -87,9 +89,9 @@ async def fetch_latest_data():
                     [10.730451399765485, 59.908283179956356],
                     [10.72658325851188, 59.90914516724291],
                     [10.699076055987064, 59.91054589181482],
-                    [10.659531163693629, 59.89610516809168]
+                    [10.659531163693629, 59.89610516809168],
                 ]
-            ]
+            ],
         },
         "since": "2024-11-11T15:14:46.298Z",
         "countryCodes": ["string"],
@@ -99,7 +101,7 @@ async def fetch_latest_data():
         "includeSafetyRelated": True,
         "includeBinaryBroadcastMetHyd": True,
         "downsample": True,
-        "filterInput": ""
+        "filterInput": "",
     }
 
     try:
@@ -109,7 +111,7 @@ async def fetch_latest_data():
                 LIVE_API_URL,
                 headers={"Authorization": f"Bearer {token}", **HEADERS},
                 json=payload,
-                timeout=600.0
+                timeout=600.0,
             ) as response:
 
                 if response.status_code == 200:
@@ -117,16 +119,19 @@ async def fetch_latest_data():
                     async for chunk in response.aiter_text():
                         yield f"{chunk}\n\n"
                 else:
-                    print(f"Kunne ikke hente data: {response.status_code}, {response.text}")
+                    print(
+                        f"Kunne ikke hente data: {response.status_code}, {response.text}"
+                    )
                     return
 
     except httpx.TimeoutException as exc:
         print(f"Tidsavbrudd: {exc}")
-        return 
+        return
     except httpx.RequestError as exc:
         print(f"En feil oppsto: {exc}")
         print(f"Forespørsel: {exc.request.url!r}")
         return
+
 
 # API-endepunkt for å hente live data fra ekstern API
 @app.get("/data")
