@@ -8,7 +8,7 @@ function App() {
   const [exitTimes, setExitTimes] = useState({});
 
   useEffect(() => {
-    const eventSource = new EventSource("http://127.0.0.1:8000/data");
+    const eventSource = new EventSource("http://127.0.0.1:10000/data");
 
     eventSource.onopen = () => {
       // når den får kontakt
