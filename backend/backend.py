@@ -136,5 +136,4 @@ async def fetch_latest_data():
 # API-endepunkt for å hente live data fra ekstern API
 @app.get("/data")
 async def get_latest_data():
-    return "hei"
     return StreamingResponse(fetch_latest_data(), media_type="text/event-stream")
