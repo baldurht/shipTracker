@@ -10,7 +10,7 @@ services:
       - key: CLIENT_SECRET
         sync: false
 
-  - type: static
+  - type: static-site
     name: shiptracker-frontend
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/build
