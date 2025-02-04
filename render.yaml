@@ -10,10 +10,11 @@ services:
       - key: CLIENT_SECRET
         sync: false
 
-  - type: static-site
+  - type: web
     name: shiptracker-frontend
+    env: node
     buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: frontend/build
+    startCommand: cd frontend && npx serve -s build -l $PORT
     envVars:
       - key: REACT_APP_API_URL
         value: https://shiptracker-backend.onrender.com
