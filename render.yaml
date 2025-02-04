@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: shiptracker-backend
+    env: python
+    buildCommand: cd backend && pip install -r requirements.txt
+    startCommand: cd backend && uvicorn backend:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: CLIENT_ID
+        sync: false
+      - key: CLIENT_SECRET
+        sync: false
+
+  - type: static
+    name: shiptracker-frontend
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://shiptracker-backend.onrender.com
