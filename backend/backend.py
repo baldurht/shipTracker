@@ -134,7 +134,7 @@ async def fetch_latest_data():
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Keep alive"}
 
 
 # API-endepunkt for å hente live data fra ekstern API
