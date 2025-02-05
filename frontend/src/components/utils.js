@@ -13,7 +13,7 @@ export function calculateExitTime(ship, polygonVertices) {
   let timeInSeconds = 0;
 
   // Convert speed to nautical miles per second
-  const speedInNMPerSecond = ship.speedOverGround / 3600; // Speed in knots is nautical miles per hour, so divide by 3600 to get per second.
+  const speedInNMPerSecond = ship.speedOverGround / 3600; 
 
   // Monitor ship's movement until it exits the polygon
   while (true) {

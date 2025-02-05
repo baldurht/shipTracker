@@ -6,8 +6,28 @@ import { calculateExitTime } from "./components/utils"; // Import the calculateE
 function App() {
   const [ships, setShips] = useState({});
   const [exitTimes, setExitTimes] = useState({});
+  const [polygonBounds, setPolygonBounds] = useState(null);
 
   useEffect(() => {
+    const polygonCoordinates = [
+      [10.659531163693629, 59.89610516809168],
+      [10.673500812335789, 59.87885330460057],
+      [10.750226283167166, 59.89761428576347],
+      [10.730451399765485, 59.908283179956356],
+      [10.72658325851188, 59.90914516724291],
+      [10.699076055987064, 59.91054589181482],
+      [10.659531163693629, 59.89610516809168],
+    ];
+
+    // Calculate polygon bounds
+    const bounds = {
+      lonMin: Math.min(...polygonCoordinates.map(coord => coord[0])),
+      lonMax: Math.max(...polygonCoordinates.map(coord => coord[0])),
+      latMin: Math.min(...polygonCoordinates.map(coord => coord[1])),
+      latMax: Math.max(...polygonCoordinates.map(coord => coord[1]))
+    };
+    setPolygonBounds(bounds);
+
     const eventSource = new EventSource(
       "https://shipohoi-backend.onrender.com/data",
     );
@@ -98,17 +118,16 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Ship Tracker</h1>
-      </header>
       <main className="ships-container">
         {Object.values(ships).length > 0 ? (
           Object.values(ships).map((shipData) => (
-            <Ship
-              key={shipData.mmsi}
-              data={shipData}
-              exitTime={exitTimes[shipData.mmsi]} // Pass exit time to each Ship component
-            />
+            <div key={shipData.mmsi} className="ship-lane">
+              <Ship
+                data={shipData}
+                exitTime={exitTimes[shipData.mmsi]}
+                bounds={polygonBounds}
+              />
+            </div>
           ))
         ) : (
           <p>No ships available yet.</p>

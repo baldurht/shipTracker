@@ -1,0 +1,40 @@
+.ships-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(to bottom, #87CEEB, #1E90FF);
+  overflow: visible;
+}
+
+.ship-lane {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100px;
+}
+
+.ship {
+  position: absolute;
+  font-size: 24px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ship-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 1s ease-out;
+}
+
+.ship-name {
+  font-size: 14px;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+  margin-top: 5px;
+  white-space: nowrap;
+}

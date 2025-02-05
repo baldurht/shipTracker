@@ -1,5 +1,29 @@
 .App {
   text-align: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.ships-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(to bottom, #87CEEB, #1E90FF);
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.ship-lane {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
 }
 
 .App-header {
@@ -8,14 +32,6 @@
   color: white;
 }
 
-.ships-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  height: 50vh;
-  padding: 20px;
-}
 
 .ship {
   text-align: center;

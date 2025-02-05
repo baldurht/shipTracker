@@ -9,6 +9,10 @@ services:
     environment:
       - REACT_APP_API_URL=http://localhost:8000
     container_name: shiptracker-frontend
+    command: npm start
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
 
   backend:
     build:
@@ -19,8 +23,10 @@ services:
     env_file:
       - ./backend/.env
     container_name: shiptracker-backend
-    deploy:
-      resources:
-        limits:
-          memory: 256M
+    volumes:
+      - ./backend:/app
+
+networks:
+  default:
+    name: shiptracker-network
 

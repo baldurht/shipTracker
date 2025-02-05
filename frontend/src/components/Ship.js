@@ -1,59 +1,40 @@
-import React, { useState } from "react";
-import shipIcon from "../shipLogo.jpeg";
+import React, { useEffect, useState } from "react";
+import "./Ship.css";
 
-function Ship({ data, exitTime }) {
-  const { name, mmsi, latitude, longitude, speedOverGround, courseOverGround } =
-    data;
+function Ship({ data, exitTime, bounds }) {
+  const [position, setPosition] = useState(null);
 
-  // State to handle hover
-  const [isHovered, setIsHovered] = useState(false);
+  useEffect(() => {
+    if (!bounds) return;
+
+    const relativeX = ((data.longitude - bounds.lonMin) / (bounds.lonMax - bounds.lonMin)) * 100;
+    const relativeY = ((data.latitude - bounds.latMin) / (bounds.latMax - bounds.latMin)) * 100;
+
+    setPosition({
+      left: `${relativeX}%`,
+      top: `${relativeY}%`,
+      transition: 'all 1s ease-out'
+    });
+  }, [data.longitude, data.latitude, bounds]);
+
+  if (!position) return null;
 
   return (
-    <div
+    <div 
       className="ship"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        ...position,
+      }}
     >
-      <div
+      <div 
         className="ship-icon"
         style={{
-          transform: `rotate(${courseOverGround - 90}deg)`,
+          transform: `rotate(${data.courseOverGround + 90}deg)`
         }}
       >
-        <img
-          src={shipIcon}
-          alt="Ship Icon"
-          className="ship-image" // Apply CSS class for image styles
-        />
+        🚢
       </div>
-      <p className="ship-name">{name}</p>
-
-      {isHovered && (
-        <div className="ship-info">
-          <p>
-            <strong>Name:</strong> {name}
-          </p>
-          <p>
-            <strong>MMSI:</strong> {mmsi}
-          </p>
-          <p>
-            <strong>Latitude:</strong> {latitude.toFixed(5)}
-          </p>
-          <p>
-            <strong>Longitude:</strong> {longitude.toFixed(5)}
-          </p>
-          <p>
-            <strong>Speed:</strong> {speedOverGround} knots
-          </p>
-          <p>
-            <strong>Heading:</strong> {courseOverGround}°
-          </p>
-          <p>
-            <strong>Exit Time:</strong>{" "}
-            {typeof exitTime === "number" ? `${exitTime} seconds` : exitTime}
-          </p>
-        </div>
-      )}
+      <div className="ship-name">{data.name || `Ship ${data.mmsi}`}</div>
     </div>
   );
 }
