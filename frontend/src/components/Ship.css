@@ -6,29 +6,57 @@
   height: 100vh;
   background: linear-gradient(to bottom, #87CEEB, #1E90FF);
   overflow: visible;
+  perspective: 1000px;
 }
 
 .ship-lane {
-  position: relative;
+  position: absolute;
   width: 100%;
   height: 100%;
-  min-height: 100px;
+  pointer-events: none;
 }
 
 .ship {
   position: absolute;
   font-size: 24px;
-  z-index: 1;
+  transform-origin: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  pointer-events: auto;
+  width: auto;
+  height: auto;
+}
+
+.ship-hover-info {
+  display: none;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  margin-top: 10px;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.ship:hover .ship-hover-info {
+  display: block;
+}
+
+.ship-hover-info div {
+  margin: 4px 0;
 }
 
 .ship-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: transform 1s ease-out;
+  font-size: 2em;
+  transition: all 1s ease-out;
+  position: relative;
 }
 
 .ship-name {
@@ -37,4 +65,8 @@
   text-shadow: 1px 1px 2px black;
   margin-top: 5px;
   white-space: nowrap;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 2px 6px;
+  border-radius: 4px;
+  position: relative;
 }

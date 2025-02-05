@@ -2,28 +2,30 @@
   text-align: center;
   height: 100vh;
   width: 100vw;
-}
-
-.ships-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(to bottom, #87CEEB, #1E90FF);
-  overflow: visible;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  padding: 0;
+  background-color: #9f3232;
+  padding: 20px;
 }
 
-.ship-lane {
+.ships-container {
+  position: relative;
+  width: 80vw;
+  height: 80vh;
+  background: linear-gradient(to bottom, #87CEEB, #1E90FF);
+  overflow: hidden;
+  border: 15px solid #2a2a2a;
+  border-radius: 10px;
+  box-shadow: 
+    inset 0 0 20px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.ships-wrapper {
   position: relative;
   width: 100%;
-  height: 100px;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
+  height: 100%;
 }
 
 .App-header {

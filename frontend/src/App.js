@@ -32,30 +32,34 @@ function App() {
       "https://shipohoi-backend.onrender.com/data",
     );
 
-    eventSource.onopen = () => {
-      // når den får kontakt
-      console.log("EventSource connected");
-    };
-
     eventSource.onmessage = (event) => {
-      // når det kommer ny melding
       try {
         const data = JSON.parse(event.data);
-        console.log("Received ship data:", data);
-
+        
         if (!data.mmsi) {
           console.error("No MMSI found for the ship", data);
           return;
         }
 
-        // Update ship data in state with the latest info
-        setShips((prevShips) => ({
-          ...prevShips,
-          [data.mmsi]: {
-            ...prevShips[data.mmsi],
-            ...data,
-          },
-        }));
+        // Update ships state while preserving existing ships
+        setShips((prevShips) => {
+          const updatedShips = { ...prevShips };
+          updatedShips[data.mmsi] = {
+            ...updatedShips[data.mmsi],  // Preserve existing ship data
+            ...data,                      // Update with new data
+            lastUpdate: Date.now()        // Add timestamp for tracking
+          };
+          
+          // Clean up ships that haven't been updated in 5 minutes
+          const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
+          Object.keys(updatedShips).forEach(mmsi => {
+            if (updatedShips[mmsi].lastUpdate < fiveMinutesAgo) {
+              delete updatedShips[mmsi];
+            }
+          });
+          
+          return updatedShips;
+        });
       } catch (error) {
         console.error("Error parsing data:", error);
       }
@@ -120,15 +124,16 @@ function App() {
     <div className="App">
       <main className="ships-container">
         {Object.values(ships).length > 0 ? (
-          Object.values(ships).map((shipData) => (
-            <div key={shipData.mmsi} className="ship-lane">
+          <div className="ships-wrapper">
+            {Object.values(ships).map((shipData) => (
               <Ship
+                key={shipData.mmsi}
                 data={shipData}
                 exitTime={exitTimes[shipData.mmsi]}
                 bounds={polygonBounds}
               />
-            </div>
-          ))
+            ))}
+          </div>
         ) : (
           <p>No ships available yet.</p>
         )}
