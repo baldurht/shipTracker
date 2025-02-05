@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./Ship.css";
 
+const getShipIcon = (shipType) => {
+  // Ship type ranges
+  if (shipType >= 60 && shipType <= 69) return "🛥️";  // Passenger ships
+  if (shipType >= 70 && shipType <= 79) return "🚢";  // Cargo ships
+  if (shipType >= 80 && shipType <= 89) return "⛽";  // Tanker
+  if (shipType === 30) return "🎣";  // Fishing vessel
+  if (shipType === 52) return "🛳️";  // Tug boat
+  if (shipType === 55) return "🚨";  // Law enforcement
+  return "⛵";  // Default ship icon
+};
+
 function Ship({ data, exitTime, bounds }) {
   const [position, setPosition] = useState(null);
 
@@ -32,6 +43,7 @@ function Ship({ data, exitTime, bounds }) {
   const speed = data.speedOverGround ?? 0;
   const course = data.courseOverGround ?? 0;
   const shipName = data.name || `Ship ${data.mmsi}`;
+  const shipIcon = getShipIcon(data.shipType);
 
   return (
     <div 
@@ -44,11 +56,12 @@ function Ship({ data, exitTime, bounds }) {
           transform: `rotate(${course + 90}deg)`
         }}
       >
-        🚢
+        {shipIcon}
       </div>
       <div className="ship-name">{shipName}</div>
       <div className="ship-hover-info">
         <div>Name: {shipName}</div>
+        <div>Type: {data.shipType}</div>
         <div>Speed: {speed.toFixed(1)} knots</div>
         <div>Heading: {course.toFixed(1)}°</div>
         <div>Exit Time: {exitTime || 'Calculating...'}</div>
