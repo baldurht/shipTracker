@@ -1,5 +1,31 @@
 .App {
   text-align: center;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #9f3232;
+  padding: 20px;
+}
+
+.ships-container {
+  position: relative;
+  width: 80vw;
+  height: 80vh;
+  background: linear-gradient(to bottom, #87CEEB, #1E90FF);
+  overflow: hidden;
+  border: 15px solid #2a2a2a;
+  border-radius: 10px;
+  box-shadow: 
+    inset 0 0 20px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.ships-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .App-header {
@@ -8,14 +34,6 @@
   color: white;
 }
 
-.ships-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  height: 50vh;
-  padding: 20px;
-}
 
 .ship {
   text-align: center;

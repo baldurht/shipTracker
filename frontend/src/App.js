@@ -6,36 +6,60 @@ import { calculateExitTime } from "./components/utils"; // Import the calculateE
 function App() {
   const [ships, setShips] = useState({});
   const [exitTimes, setExitTimes] = useState({});
+  const [polygonBounds, setPolygonBounds] = useState(null);
 
   useEffect(() => {
+    const polygonCoordinates = [
+      [10.659531163693629, 59.89610516809168],
+      [10.673500812335789, 59.87885330460057],
+      [10.750226283167166, 59.89761428576347],
+      [10.730451399765485, 59.908283179956356],
+      [10.72658325851188, 59.90914516724291],
+      [10.699076055987064, 59.91054589181482],
+      [10.659531163693629, 59.89610516809168],
+    ];
+
+    // Calculate polygon bounds
+    const bounds = {
+      lonMin: Math.min(...polygonCoordinates.map(coord => coord[0])),
+      lonMax: Math.max(...polygonCoordinates.map(coord => coord[0])),
+      latMin: Math.min(...polygonCoordinates.map(coord => coord[1])),
+      latMax: Math.max(...polygonCoordinates.map(coord => coord[1]))
+    };
+    setPolygonBounds(bounds);
+
     const eventSource = new EventSource(
       "https://shipohoi-backend.onrender.com/data",
     );
 
-    eventSource.onopen = () => {
-      // når den får kontakt
-      console.log("EventSource connected");
-    };
-
     eventSource.onmessage = (event) => {
-      // når det kommer ny melding
       try {
         const data = JSON.parse(event.data);
-        console.log("Received ship data:", data);
-
+        
         if (!data.mmsi) {
           console.error("No MMSI found for the ship", data);
           return;
         }
 
-        // Update ship data in state with the latest info
-        setShips((prevShips) => ({
-          ...prevShips,
-          [data.mmsi]: {
-            ...prevShips[data.mmsi],
-            ...data,
-          },
-        }));
+        // Update ships state while preserving existing ships
+        setShips((prevShips) => {
+          const updatedShips = { ...prevShips };
+          updatedShips[data.mmsi] = {
+            ...updatedShips[data.mmsi],  // Preserve existing ship data
+            ...data,                      // Update with new data
+            lastUpdate: Date.now()        // Add timestamp for tracking
+          };
+          
+          // Clean up ships that haven't been updated in 5 minutes
+          const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
+          Object.keys(updatedShips).forEach(mmsi => {
+            if (updatedShips[mmsi].lastUpdate < fiveMinutesAgo) {
+              delete updatedShips[mmsi];
+            }
+          });
+          
+          return updatedShips;
+        });
       } catch (error) {
         console.error("Error parsing data:", error);
       }
@@ -98,18 +122,18 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Ship Tracker</h1>
-      </header>
       <main className="ships-container">
         {Object.values(ships).length > 0 ? (
-          Object.values(ships).map((shipData) => (
-            <Ship
-              key={shipData.mmsi}
-              data={shipData}
-              exitTime={exitTimes[shipData.mmsi]} // Pass exit time to each Ship component
-            />
-          ))
+          <div className="ships-wrapper">
+            {Object.values(ships).map((shipData) => (
+              <Ship
+                key={shipData.mmsi}
+                data={shipData}
+                exitTime={exitTimes[shipData.mmsi]}
+                bounds={polygonBounds}
+              />
+            ))}
+          </div>
         ) : (
           <p>No ships available yet.</p>
         )}

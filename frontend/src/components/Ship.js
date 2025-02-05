@@ -1,59 +1,58 @@
-import React, { useState } from "react";
-import shipIcon from "../shipLogo.jpeg";
+import React, { useEffect, useState } from "react";
+import "./Ship.css";
 
-function Ship({ data, exitTime }) {
-  const { name, mmsi, latitude, longitude, speedOverGround, courseOverGround } =
-    data;
+function Ship({ data, exitTime, bounds }) {
+  const [position, setPosition] = useState(null);
 
-  // State to handle hover
-  const [isHovered, setIsHovered] = useState(false);
+  useEffect(() => {
+    if (!bounds) return;
+
+    // Horizontal position based on latitude (left-right)
+    const horizontalPosition = ((data.latitude - bounds.latMin) / (bounds.latMax - bounds.latMin)) * 100;
+    
+    // Longitude affects vertical position and scale (west -> higher and smaller)
+    const distanceFromEast = (bounds.lonMax - data.longitude) / (bounds.lonMax - bounds.lonMin);
+    const scale = 1 - (distanceFromEast * 0.6); // Ships scale from 100% to 40% based on distance
+    
+    // Adjust vertical position based on scale - larger ships (closer) go lower
+    const verticalPosition = 50 - (scale * 40); // This will put larger ships lower on screen
+    
+    setPosition({
+      left: `${horizontalPosition}%`,
+      top: `${verticalPosition}%`,
+      transform: `scale(${scale})`,
+      zIndex: Math.round((1 - distanceFromEast) * 100),
+      transition: 'all 1s ease-out'
+    });
+}, [data.longitude, data.latitude, bounds]);
+
+  if (!position) return null;
+
+  // Handle null values with defaults
+  const speed = data.speedOverGround ?? 0;
+  const course = data.courseOverGround ?? 0;
+  const shipName = data.name || `Ship ${data.mmsi}`;
 
   return (
-    <div
+    <div 
       className="ship"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      style={position}
     >
-      <div
+      <div 
         className="ship-icon"
         style={{
-          transform: `rotate(${courseOverGround - 90}deg)`,
+          transform: `rotate(${course + 90}deg)`
         }}
       >
-        <img
-          src={shipIcon}
-          alt="Ship Icon"
-          className="ship-image" // Apply CSS class for image styles
-        />
+        🚢
       </div>
-      <p className="ship-name">{name}</p>
-
-      {isHovered && (
-        <div className="ship-info">
-          <p>
-            <strong>Name:</strong> {name}
-          </p>
-          <p>
-            <strong>MMSI:</strong> {mmsi}
-          </p>
-          <p>
-            <strong>Latitude:</strong> {latitude.toFixed(5)}
-          </p>
-          <p>
-            <strong>Longitude:</strong> {longitude.toFixed(5)}
-          </p>
-          <p>
-            <strong>Speed:</strong> {speedOverGround} knots
-          </p>
-          <p>
-            <strong>Heading:</strong> {courseOverGround}°
-          </p>
-          <p>
-            <strong>Exit Time:</strong>{" "}
-            {typeof exitTime === "number" ? `${exitTime} seconds` : exitTime}
-          </p>
-        </div>
-      )}
+      <div className="ship-name">{shipName}</div>
+      <div className="ship-hover-info">
+        <div>Name: {shipName}</div>
+        <div>Speed: {speed.toFixed(1)} knots</div>
+        <div>Heading: {course.toFixed(1)}°</div>
+        <div>Exit Time: {exitTime || 'Calculating...'}</div>
+      </div>
     </div>
   );
 }
