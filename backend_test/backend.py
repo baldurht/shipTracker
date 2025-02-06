@@ -17,10 +17,11 @@ load_dotenv()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Update with your frontend URL
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_origins=["*"],
+    allow_credentials=False,  # Set to False for EventSource
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
+    expose_headers=["content-type", "content-length"]
 )
 
 if __name__ == "__main__":
@@ -83,13 +84,11 @@ async def fetch_latest_data():
             "type": "Polygon",
             "coordinates": [
                 [
-                    [10.659531163693629, 59.89610516809168],
-                    [10.673500812335789, 59.87885330460057],
-                    [10.750226283167166, 59.89761428576347],
-                    [10.730451399765485, 59.908283179956356],
-                    [10.72658325851188, 59.90914516724291],
-                    [10.699076055987064, 59.91054589181482],
-                    [10.659531163693629, 59.89610516809168],
+                    [10.40949213375464, 59.616131700787946],
+                    [10.407879608203785, 59.61211673648614],
+                    [10.412981305421397, 59.61149089322336],
+                    [10.414774545043457, 59.615491869965865],
+                    [10.40949213375464, 59.616131700787946]
                 ]
             ],
         },

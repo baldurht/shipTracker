@@ -1,0 +1,90 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+    color: #1a1a1a;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+#ships-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.ship-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.ship-illustration {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 2rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.ship-illustration svg {
+    width: 100px;
+    height: 100px;
+    color: #1e3c72;
+    transition: transform 0.3s ease-in-out;
+}
+
+.ship-card h3 {
+    color: #1e3c72;
+    margin: 0 0 1.5rem 0;
+    font-size: 1.8rem;
+    text-align: center;
+    border-bottom: 2px solid #f0f2f5;
+    padding-bottom: 0.5rem;
+}
+
+.ship-card p {
+    margin: 1rem 0;
+    color: #4a4a4a;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+}
+
+.ship-card p span:first-child {
+    font-weight: 500;
+    color: #666;
+}
+
+.ship-card p span:last-child {
+    color: #2a5298;
+    font-weight: 500;
+}

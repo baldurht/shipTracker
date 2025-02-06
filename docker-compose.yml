@@ -1,32 +1,18 @@
-version: '3.8'
-services:
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      - REACT_APP_API_URL=http://localhost:8000
-    container_name: shiptracker-frontend
-    command: npm start
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
 
+
+services:
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    build: ./backend_test
     ports:
       - "8000:8000"
-    env_file:
-      - ./backend/.env
-    container_name: shiptracker-backend
-    volumes:
-      - ./backend:/app
+    environment:
+      - PORT=8000
+      - CLIENT_ID=${CLIENT_ID}
+      - CLIENT_SECRET=${CLIENT_SECRET}
 
-networks:
-  default:
-    name: shiptracker-network
-
+  frontend:
+    build: ./frontend_test
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
