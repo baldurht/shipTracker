@@ -6,13 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateShipDisplay(shipData) {
-        const rotation = shipData.courseOverGround || 0;
+        const course = shipData.courseOverGround || 0;
+        // Determine if ship is heading north (between 270 and 90 degrees)
+        const isHeadingNorth = course > 270 || course < 90;
+        
         shipContainer.innerHTML = `
             <div class="ship-card">
                 <div class="ship-illustration">
-                    <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg" style="transform: rotate(${rotation}deg);">
-                        <path d="M500 179.5L179.5 820.5h641L500 179.5zm0 100l229.8 461H270.2L500 279.5z" fill="currentColor"/>
-                    </svg>
+                    <img src="ship.png" alt="Ship" class="${isHeadingNorth ? 'heading-north' : 'heading-south'}">
                 </div>
                 <h3>${shipData.name || `Ship ${shipData.mmsi}`}</h3>
                 <p>
