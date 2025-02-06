@@ -75,61 +75,81 @@ async def ensure_token_valid():
 
 
 # Hent live data fra API-et
+# ... existing imports ...
+
+# Add a timestamp variable to track last query time
+current_polygon = None
+last_query_time = None
+
+@app.post("/update-polygon")
+async def update_polygon(data: dict):
+    global current_polygon, last_query_time
+    current_polygon = data["polygon"]
+    # Reset the query time to get fresh data for new location
+    last_query_time = None
+    return {"status": "success"}
+
 async def fetch_latest_data():
+    global last_query_time
     if not await ensure_token_valid():
         return
 
-    payload = {
-        "geometry": {
-            "type": "Polygon",
-            "coordinates": [
-                [
-                    [10.40949213375464, 59.616131700787946],
-                    [10.407879608203785, 59.61211673648614],
-                    [10.412981305421397, 59.61149089322336],
-                    [10.414774545043457, 59.615491869965865],
-                    [10.40949213375464, 59.616131700787946]
-                ]
-            ],
-        },
-        "since": "2024-11-11T15:14:46.298Z",
-        "countryCodes": ["string"],
-        "includePosition": True,
-        "includeStatic": True,
-        "includeAton": True,
-        "includeSafetyRelated": True,
-        "includeBinaryBroadcastMetHyd": True,
-        "downsample": True,
-        "filterInput": "",
-    }
+    # Use the current_polygon if available, otherwise use default
+    polygon_coords = current_polygon if current_polygon else [
+        [10.40949213375464, 59.616131700787946],
+        [10.407879608203785, 59.61211673648614],
+        [10.412981305421397, 59.61149089322336],
+        [10.414774545043457, 59.615491869965865],
+        [10.40949213375464, 59.616131700787946]
+    ]
 
-    try:
-        async with httpx.AsyncClient() as client:
-            async with client.stream(
-                "POST",
-                LIVE_API_URL,
-                headers={"Authorization": f"Bearer {token}", **HEADERS},
-                json=payload,
-                timeout=600.0,
-            ) as response:
+    while True:
+        try:
+            # Update the since parameter with the last query time or current time
+            current_time = time.strftime("%Y-%m-%dT%H:%M:%S.000Z", time.gmtime())
+            query_time = last_query_time if last_query_time else current_time
+            
+            payload = {
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [polygon_coords]
+                },
+                "since": query_time,
+                "countryCodes": ["string"],
+                "includePosition": True,
+                "includeStatic": True,
+                "includeAton": True,
+                "includeSafetyRelated": True,
+                "includeBinaryBroadcastMetHyd": True,
+                "downsample": True,
+                "filterInput": "",
+            }
+            
+            # Update last query time for next iteration
+            last_query_time = current_time
 
-                if response.status_code == 200:
-                    # Strømmer data fra API
-                    async for chunk in response.aiter_text():
-                        yield f"{chunk}\n\n"
-                else:
-                    print(
-                        f"Kunne ikke hente data: {response.status_code}, {response.text}"
-                    )
-                    return
+            async with httpx.AsyncClient() as client:
+                async with client.stream(
+                    "POST",
+                    LIVE_API_URL,
+                    headers={"Authorization": f"Bearer {token}", **HEADERS},
+                    json=payload,
+                    timeout=600.0,
+                ) as response:
+                    if response.status_code == 200:
+                        async for chunk in response.aiter_text():
+                            yield f"{chunk}\n\n"
+                    else:
+                        print(f"Kunne ikke hente data: {response.status_code}, {response.text}")
+                        return
 
-    except httpx.TimeoutException as exc:
-        print(f"Tidsavbrudd: {exc}")
-        return
-    except httpx.RequestError as exc:
-        print(f"En feil oppsto: {exc}")
-        print(f"Forespørsel: {exc.request.url!r}")
-        return
+        except httpx.TimeoutException as exc:
+            print(f"Tidsavbrudd: {exc}")
+            return
+        except httpx.RequestError as exc:
+            print(f"En feil oppsto: {exc}")
+            print(f"Forespørsel: {exc.request.url!r}")
+            return
 
 @app.get("/")
 async def root():
